@@ -1,11 +1,10 @@
 # 🧩 LOOPIS Admin
 
-"LOOPIS Admin" (loopis-admin) is a WordPress plugin that provides settings and functionality for the WordPress Admin dashboard<br>
+"LOOPIS Admin" is a WordPress plugin that provides settings and functionality for the WP Admin of LOOPIS.app<br>
 
 ## 💡 Status
 Original developer joxyzan is currently working on migrating all "ungitable" stuff from the WordPress installation that serves as our prototype. When finished all code will be available on GitHub for collaborative development.<br>
 
-<br>
 ## 📋 Changelog
 
 **0.6 (2025-08-26)**<br>
