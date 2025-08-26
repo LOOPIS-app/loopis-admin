@@ -36,7 +36,7 @@ User functions moved from snippets to plugin<br>
 init commit with basic features not tested live<br>
 
 
-## 🎡 Installation/Update of "LOOPIS Admin"
+## 💾 Installation/Update of "LOOPIS Admin"
 
 1. Download and zip the folder "loopis-admin".
 2. Upload the zip using **WordPress admin dashboard > Plugins > Add New Plugin**.
