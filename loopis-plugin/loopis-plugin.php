@@ -26,7 +26,6 @@ function loopis_plugin_load_files() {
     }
 
     // Load all plugin files
-    loopis_plugin_include_folder('db');
     loopis_plugin_include_folder('interface');
     loopis_plugin_include_folder('functions');
     loopis_plugin_include_folder('pages/locker');
@@ -46,4 +45,5 @@ function loopis_plugin_include_folder($folder_name) {
 }
 
 // Register activation hook for setup
+require_once LOOPIS_PLUGIN_DIR . '/assets/db/plugin-activation.php';
 register_activation_hook(__FILE__, 'loopis_db_setup');
