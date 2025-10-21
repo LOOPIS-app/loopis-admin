@@ -12,7 +12,7 @@ add_filter('plugins_api', 'loopis_add_plugin_icon', 10, 3);
 
 function loopis_add_plugin_icon($res, $action, $args) {
     // Check if the plugin slug matches your plugin
-    if (isset($args->slug) && $args->slug === 'loopis-plugin') {
+    if (isset($args->slug) && $args->slug === 'loopis-admin') {
         $res->icons = array(
             'default' => plugin_dir_url(__FILE__) . 'assets/img/loopis-icon/icon-256x256.png',
         );

@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-// Function to display content of settings page
+// Function to display content of page
 function loopis_locker_edit() {
     // Page title and description
     echo '<h1>🛠 Redigera skåp</h1>';
