@@ -14,14 +14,12 @@ function loopis_custom_admin_menu() {
     global $menu;
 
     // Change the name of the Posts menu directly by its position
-    $menu[5][0] = 'Saker att få'; // New name for Posts
+    $menu[5][0] = 'Annonser';          // New name for "Posts"
 
-    // Add categories as sub-items under "Saker att få"
-    add_categories_submenu('Saker att få', 'edit.php', 'category');
+    // Add categories as sub-items under "Annonser"
+    add_categories_submenu('Annonser', 'edit.php', 'category');
 
-    // Add custom post type menus after "Saker att få"
-    add_custom_post_type_menu('borrow', 'Saker att låna', LOOPIS_PLUGIN_URL . '/assets/img/wp-admin-menu/icon-borrow.png', 'category', 6);
-    add_custom_post_type_menu('booking', 'Bokningar', LOOPIS_PLUGIN_URL . '/assets/img/wp-admin-menu/icon-bookings.png', 'booking-status', 7);
+    // Add custom post type menus after "Annonser"
     add_custom_post_type_menu('forum', 'Forum', LOOPIS_PLUGIN_URL . '/assets/img/wp-admin-menu/icon-forum.png', 'forum-category', 8);
     add_custom_post_type_menu('support', 'Support', LOOPIS_PLUGIN_URL . '/assets/img/wp-admin-menu/icon-support.png', 'support-status', 9);
     
@@ -32,25 +30,25 @@ function loopis_custom_admin_menu() {
     // Add a menu separator
     $menu[10] = array('', 'read', 'separator1', '', 'wp-menu-separator');
 
-    // Add top-level menu for Locker (Skåp)
+    // Add top-level menu for "Lockers"
     add_menu_page(
-        'Skåp', // Page title
-        'Skåp', // Menu title
-        'manage_options', // Capability
-        'loopis-locker-general', // Menu slug
-        'loopis_locker_general', // Function to display the page content
+        'Skåp',                     // Page title
+        'Skåp',                     // Menu title
+        'manage_options',           // Capability
+        'loopis-locker-general',    // Menu slug
+        'loopis_locker_general',    // Function to display the page content
         LOOPIS_PLUGIN_URL . '/assets/img/wp-admin-menu/icon-locker.png', // Path to your custom settings icon
-        10 // Position, before Inställningar (which is 11)
+        10                           // Position, before "Settings" (11)
     );
 
-    // Rename first sub-menu and add sub-menus
+    // Rename first sub-menu and add sub-menus  
     add_submenu_page(
-        'loopis-locker-general', // Parent slug
-        'Aktiva skåp', // Page title
-        'Aktiva skåp', // Menu title
-        'manage_options', // Capability
-        'loopis-locker-general', // Menu slug
-        'loopis_locker_general' // Callback function to render the page
+        'loopis-locker-general',    // Parent slug
+        'Aktiva skåp',              // Page title
+        'Aktiva skåp',              // Menu title
+        'manage_options',           // Capability
+        'loopis-locker-general',    // Menu slug
+        'loopis_locker_general'     // Callback function to render the page
     );
 
     add_submenu_page(
@@ -71,25 +69,25 @@ function loopis_custom_admin_menu() {
         'loopis_locker_messages'
     );
 
-    // Add top-level menu for Settings
+    // Add top-level menu for "Settings"
     add_menu_page(
-        'Inställningar', // Page title
-        'Inställningar', // Menu title
-        'manage_options', // Capability
-        'loopis-settings-general', // Menu slug
-        'loopis_settings_general', // Function to display the page content
+        'Inställningar',            // Page title
+        'Inställningar',            // Menu title
+        'manage_options',           // Capability
+        'loopis-settings-general',  // Menu slug
+        'loopis_settings_general',  // Function to display the page content
         LOOPIS_PLUGIN_URL . '/assets/img/wp-admin-menu/icon-settings.png', // Path to your custom settings icon
-        11 // Position
+        11                           // Position
     );
 
     // Rename first sub-menu and add sub-menus
     add_submenu_page(
-        'loopis-settings-general', // Parent slug
-        'Allmänt', // Page title
-        'Allmänt', // Menu title
-        'manage_options', // Capability
-        'loopis-settings-general', // Menu slug
-        'loopis_settings_general' // Callback function to render the page
+        'loopis-settings-general',    // Parent slug
+        'Allmänt',                     // Page title
+        'Allmänt',                     // Menu title
+        'manage_options',              // Capability
+        'loopis-settings-general',     // Menu slug
+        'loopis_settings_general'      // Callback function to render the page
     );
 
     add_submenu_page(
@@ -147,11 +145,11 @@ function add_categories_submenu($parent_title, $parent_slug, $taxonomy) {
             $url = 'edit.php?post_status=all&post_type=post&cat=' . $category->term_id;
 
             add_submenu_page(
-                $parent_slug, // Parent slug
-                $category->name, // Page title
-                $category->name, // Menu title
-                'manage_categories', // Capability
-                $url // Menu slug with link
+                $parent_slug,                // Parent slug
+                $category->name,             // Page title
+                $category->name,             // Menu title
+                'manage_categories',         // Capability
+                $url                         // Menu slug with link
             );
         }
     }
@@ -160,13 +158,13 @@ function add_categories_submenu($parent_title, $parent_slug, $taxonomy) {
 function add_custom_post_type_menu($post_type, $menu_title, $icon_url, $taxonomy, $position) {
     // Add the top-level menu for the custom post type
     add_menu_page(
-        $menu_title, // Page title
-        $menu_title, // Menu title
-        'manage_options', // Capability
+        $menu_title,                   // Page title
+        $menu_title,                   // Menu title
+        'manage_options',              // Capability
         'edit.php?post_type=' . $post_type, // Menu slug
-        '', // Function
-        $icon_url, // Use the icon URL directly
-        $position // Position
+        '',                         // Function
+        $icon_url,                  // Use the icon URL directly
+        $position                   // Position
     );
 
     // Add "All Posts" submenu item
@@ -196,30 +194,27 @@ function add_custom_post_type_menu($post_type, $menu_title, $icon_url, $taxonomy
         'edit-tags.php?taxonomy=' . $taxonomy . '&post_type=' . $post_type // Menu slug with link
     );
 
-    // Only add taxonomy terms as sub-items if the post type is not "borrow"
-    if ($post_type !== 'borrow') {
-        // Fetch all terms for the taxonomy
-        $terms = get_terms(array(
-            'taxonomy' => $taxonomy,
-            'hide_empty' => false,
-            'fields' => 'all', // Ensure we get all fields of the term objects
-        ));
+    // Add taxonomy terms as submenu items under the custom posts
+    $terms = get_terms(array(
+        'taxonomy' => $taxonomy,
+        'hide_empty' => false,
+        'fields' => 'all', // Ensure we get all fields of the term objects
+    ));
 
-        // Check if terms are valid and not an error
-        if (!is_wp_error($terms) && !empty($terms)) {
-            // Add a submenu item for each term under the custom post type menu
-            foreach ($terms as $term) {
-                // Construct the URL for filtering posts by custom taxonomy term
-                $url = 'edit.php?post_type=' . $post_type . '&' . $taxonomy . '=' . $term->slug;
+    // Check if terms are valid and not an error
+    if (!is_wp_error($terms) && !empty($terms)) {
+        // Add a submenu item for each term under the custom post type menu
+        foreach ($terms as $term) {
+            // Construct the URL for filtering posts by custom taxonomy term
+            $url = 'edit.php?post_type=' . $post_type . '&' . $taxonomy . '=' . $term->slug;
 
-                add_submenu_page(
-                    'edit.php?post_type=' . $post_type, // Parent slug
-                    $term->name, // Page title
-                    $term->name, // Menu title
-                    'manage_options', // Capability
-                    $url // Menu slug with link
-                );
-            }
+            add_submenu_page(
+                'edit.php?post_type=' . $post_type, // Parent slug
+                $term->name, // Page title
+                $term->name, // Menu title
+                'manage_options', // Capability
+                $url // Menu slug with link
+            );
         }
     }
 }
@@ -246,14 +241,8 @@ function loopis_replace_admin_menu_icons_css() {
             background-image: url('<?php echo LOOPIS_PLUGIN_URL; ?>/assets/img/wp-admin-menu/icon-posts.png') !important;
         }
 
-        /* Settings icon */
-        #adminmenu #toplevel_page_installningar .wp-menu-image {
-            background-image: url('<?php echo LOOPIS_PLUGIN_URL; ?>/assets/img/wp-admin-menu/icon-settings.png') !important;
-        }
-
         /* Hide original Dashicon */
-        #adminmenu #menu-posts .wp-menu-image:before,
-        #adminmenu #toplevel_page_installningar .wp-menu-image:before {
+        #adminmenu #menu-posts .wp-menu-image:before {
             content: none !important;
         }
 

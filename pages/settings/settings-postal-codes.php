@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
     exit; // Exit if accessed directly
 }
 
-// Function to display content of settings page
+// Function to render the page
 function loopis_settings_postal_codes() {
     // Page title and description
     echo '<h1>⚙ Postnummer</h1>';
