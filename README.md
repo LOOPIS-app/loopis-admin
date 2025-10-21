@@ -1,13 +1,11 @@
 # 🧩 LOOPIS Admin
-
 "LOOPIS Admin" is a WordPress plugin that provides settings and functionality for the WP Admin of LOOPIS.app<br>
 
 ## 💡 Status
 Original developer joxyzan is currently working on migrating all "ungitable" stuff from the WordPress installation that serves as our prototype. When finished all code will be available on GitHub for collaborative development.<br>
 
 ## 📋 Changelog
-
-**0.7 (2025-10-XX)**<br>
+**0.7 (2025-10-21)**<br>
 Removed all borrow and booking functionality<br>
 Changed name of plugin from "LOOPIS Plugin" to "LOOPIS Admin"<br>
 
@@ -38,7 +36,5 @@ User functions moved from snippets to plugin<br>
 **0.0 (2024-11-23)**<br>
 init commit with basic features not tested live<br>
 
-
 ## 💾 Installation/Update of "LOOPIS Admin"
-
 Upload the zipped folder "loopis-admin.zip" using **WP Admin > Plugins > Add Plugin > Upload Plugin**.
