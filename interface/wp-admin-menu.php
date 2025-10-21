@@ -20,9 +20,9 @@ function loopis_custom_admin_menu() {
     add_categories_submenu('Annonser', 'edit.php', 'category');
 
     // Add custom post type menus after "Annonser"
-    add_custom_post_type_menu('forum', 'Forum', LOOPIS_PLUGIN_URL . '/assets/img/wp-admin-menu/icon-forum.png', 'forum-category', 8);
-    add_custom_post_type_menu('support', 'Support', LOOPIS_PLUGIN_URL . '/assets/img/wp-admin-menu/icon-support.png', 'support-status', 9);
-    
+    add_custom_post_type_menu('forum', 'Forum', LOOPIS_ADMIN_URL . '/assets/img/wp-admin-menu/icon-forum.png', 'forum-category', 8);
+    add_custom_post_type_menu('support', 'Support', LOOPIS_ADMIN_URL . '/assets/img/wp-admin-menu/icon-support.png', 'support-status', 9);
+
     // Adjust the position of the Media menu to appear after the separator
     $menu[13] = $menu[10]; // Move Media to position 13
     unset($menu[10]); // Remove the old position
@@ -37,7 +37,7 @@ function loopis_custom_admin_menu() {
         'manage_options',           // Capability
         'loopis-locker-general',    // Menu slug
         'loopis_locker_general',    // Function to display the page content
-        LOOPIS_PLUGIN_URL . '/assets/img/wp-admin-menu/icon-locker.png', // Path to your custom settings icon
+        LOOPIS_ADMIN_URL . '/assets/img/wp-admin-menu/icon-locker.png', // Path to your custom settings icon
         10                           // Position, before "Settings" (11)
     );
 
@@ -76,7 +76,7 @@ function loopis_custom_admin_menu() {
         'manage_options',           // Capability
         'loopis-settings-general',  // Menu slug
         'loopis_settings_general',  // Function to display the page content
-        LOOPIS_PLUGIN_URL . '/assets/img/wp-admin-menu/icon-settings.png', // Path to your custom settings icon
+        LOOPIS_ADMIN_URL . '/assets/img/wp-admin-menu/icon-settings.png', // Path to your custom settings icon
         11                           // Position
     );
 
@@ -238,7 +238,7 @@ function loopis_replace_admin_menu_icons_css() {
 
         /* Posts icon */
         #adminmenu #menu-posts .wp-menu-image {
-            background-image: url('<?php echo LOOPIS_PLUGIN_URL; ?>/assets/img/wp-admin-menu/icon-posts.png') !important;
+            background-image: url('<?php echo LOOPIS_ADMIN_URL; ?>/assets/img/wp-admin-menu/icon-posts.png') !important;
         }
 
         /* Hide original Dashicon */
