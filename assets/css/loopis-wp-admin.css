@@ -1,0 +1,45 @@
+/**
+ * Admin Menu Custom Styles
+ * 
+ * Custom styling for admin menu icons and appearance.
+ */
+
+/* General styling for menu icons */
+#adminmenu div.wp-menu-image {
+    float: left;
+    width: 36px;
+    height: 34px;
+    margin: 0;
+    text-align: center;
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+}
+
+/* Posts icon */
+#adminmenu #menu-posts .wp-menu-image {
+    background-image: url('../img/wp-admin-menu/icon-posts.png') !important;
+    opacity: .6;
+}
+
+/* Hide original Dashicon */
+#adminmenu #menu-posts .wp-menu-image:before {
+    content: none !important;
+}
+
+/* Image padding and opacity for other menu icons */
+#adminmenu .wp-menu-image img {
+    padding: 9px 0 0;
+    opacity: .6;
+}
+
+/* Hover and active state for Posts icon (background image) */
+#adminmenu li.menu-top:hover #menu-posts .wp-menu-image,
+#adminmenu li.wp-has-current-submenu #menu-posts .wp-menu-image {
+    opacity: 1;
+}
+
+/* Hover and active state for other icons (img tags) */
+#adminmenu li.menu-top:hover .wp-menu-image img, 
+#adminmenu li.wp-has-current-submenu .wp-menu-image img {
+    opacity: 1;
+}

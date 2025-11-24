@@ -20,6 +20,19 @@ define('LOOPIS_ADMIN_VERSION', '0.7');
 define('LOOPIS_ADMIN_DIR', plugin_dir_path(__FILE__)); // Server-side path to /wp-content/plugins/loopis-admin/
 define('LOOPIS_ADMIN_URL', plugin_dir_url(__FILE__));  // Client-side path to https://site.com/wp-content/plugins/loopis-admin/
 
+// Enqueue admin CSS
+add_action('admin_enqueue_scripts', 'loopis_admin_enqueue_assets');
+
+function loopis_admin_enqueue_assets() {
+    // Enqueue admin menu styles
+    wp_enqueue_style(
+        'loopis-wp-admin-styles',
+        LOOPIS_ADMIN_URL . 'assets/css/loopis-wp-admin.css',
+        array(),
+        filemtime(LOOPIS_ADMIN_DIR . 'assets/css/loopis-wp-admin.css')
+    );
+}
+
 // Hook into 'plugins_loaded' to ensure all plugins are loaded before initializing
 add_action('plugins_loaded', 'loopis_admin_load_files');
 
