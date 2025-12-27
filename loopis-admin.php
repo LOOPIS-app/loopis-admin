@@ -14,6 +14,11 @@ if (!defined('ABSPATH')) {
     exit; 
 }
 
+// Run only in admin area
+if (!is_admin()) {
+    return;
+}
+
 // Define plugin version
 define('LOOPIS_ADMIN_VERSION', '0.71');
 
@@ -34,16 +39,8 @@ function loopis_admin_enqueue_assets() {
     );
 }
 
-// Hook into 'plugins_loaded' to ensure all plugins are loaded before initializing
-add_action('plugins_loaded', 'loopis_admin_load_files');
-
-// Define folders to load for administrators in admin area
+// Define folders to load
 function loopis_admin_load_files() {
-    if (!current_user_can('administrator') || !is_admin()) {
-        return; // Exit early
-    }
-
-    // Load all plugin files
     loopis_admin_include_folder('interface');
     loopis_admin_include_folder('functions');
     loopis_admin_include_folder('pages/locker');
@@ -58,6 +55,9 @@ function loopis_admin_include_folder($folder_name) {
             include_once $file;
         }
     } else {
-        error_log("loopis-admin: Failed to include folder from loopis-admin.php: {$folder_name}");
+        error_log("Failed to include folder: {$folder_name}");
     }
 }
+
+// Load files when all plugins are loaded
+add_action('plugins_loaded', 'loopis_admin_load_files');
