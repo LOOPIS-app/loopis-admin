@@ -2,10 +2,11 @@
 /*
 Plugin Name: LOOPIS Admin
 Plugin URI: https://github.com/LOOPIS-app/loopis-admin
-Version: 0.7
-Author: joxyzan
-Author URI: https://loopis.org
 Description: Plugin for enhancing the WP Admin area of LOOPIS.app
+Version: 0.71
+Author: The Develoopers
+Author URI: https://loopis.org
+Required Plugins: LOOPIS Config
 */
 
 // Prevent direct access
@@ -14,7 +15,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin version
-define('LOOPIS_ADMIN_VERSION', '0.7');
+define('LOOPIS_ADMIN_VERSION', '0.71');
 
 // Define plugin folder path constants
 define('LOOPIS_ADMIN_DIR', plugin_dir_path(__FILE__)); // Server-side path to /wp-content/plugins/loopis-admin/
