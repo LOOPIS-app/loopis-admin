@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 /**
  * Add Twemoji script to page head
  */
-function use_twemoji() {
+function use_twemoji_admin() {
     ?>
     <script type="text/javascript">
     !function(window, document) {
@@ -69,4 +69,4 @@ function use_twemoji() {
 }
 
 // Add Twemoji to WP Admin area
-add_action('admin_head', 'use_twemoji');
+add_action('admin_head', 'use_twemoji_admin');
