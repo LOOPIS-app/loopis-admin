@@ -62,8 +62,8 @@
 
 .button.wp-green:hover,
 .button.wp-green:focus {
-    background: #3d9851;
-    border-color: #3d9851;
+    background: #028024;
+    border-color: #028024;
 }
 
 .button.wp-red {
@@ -75,4 +75,15 @@
 .button.wp-red:focus {
     background: #a53535;
     border-color: #a53535;
+}
+
+.button.wp-orange {
+    background: #d98200;
+    border-color: #d98200;
+}
+
+.button.wp-orange:hover,
+.button.wp-orange:focus {
+    background: #b26900;
+    border-color: #b26900;
 }
