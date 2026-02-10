@@ -10,6 +10,6 @@ if (!defined('ABSPATH')) {
 // Function to render the page
 function loopis_settings_postal_codes() {
     // Page title and description
-    echo '<h1>⚙ Postnummer</h1>';
-    echo '<p>💡 Lista över aktiva postnummer i ditt område</p>';
+    echo '<h1>⚙ Postal codes</h1>';
+    echo '<p>💡 List of active postal codes in your area</p>';
 }

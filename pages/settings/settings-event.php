@@ -11,7 +11,7 @@ if (!defined('ABSPATH')) {
 function loopis_settings_event() {
     // Page title and description
     echo '<h1>⚙ Event</h1>';
-    echo '<p>💡 Inställningar för event.</p>';
+    echo '<p>💡 Settings for event.</p>';
 
     // Handle form submission
     $event_name = loopis_get_setting('event_name', '');
@@ -26,7 +26,7 @@ function loopis_settings_event() {
                 $history[] = $new_event_name;
                 loopis_update_setting('event_name_history', serialize($history));
             }
-            echo '<div class="updated"><p>Ändringar har sparats.</p></div>';
+            echo '<div class="updated"><p>Changes saved.</p></div>';
         }
     }
     $event_name = loopis_get_setting('event_name', '');
@@ -34,7 +34,7 @@ function loopis_settings_event() {
     $history = !empty($history_serialized) ? unserialize($history_serialized) : array();
     echo '<form method="post">';
     wp_nonce_field('save_event_name', 'event_name_nonce');
-    echo '<table class="form-table"><tr><th scope="row"><label for="event_name">Eventnamn</label></th>';
+    echo '<table class="form-table"><tr><th scope="row"><label for="event_name">Event name</label></th>';
     echo '<td style="vertical-align:top;">';
     echo '<input name="event_name" type="text" id="event_name" value="' . esc_attr($event_name) . '" class="regular-text" />';
     // Show previous values as buttons, aligned with textbox
@@ -49,11 +49,11 @@ function loopis_settings_event() {
         echo '</div>';
     }
     echo '</td></tr></table>';
-    echo '<p class="submit"><input type="submit" class="button-primary" value="Spara ändringar"></p>';
+    echo '<p class="submit"><input type="submit" class="button-primary" value="Save changes"></p>';
     echo '</form>';
 
     // List users with storage_submitter role
-    echo '<h2 style="margin-top:2em;">Användare med rollen <code>storage_submitter</code></h2>';
+    echo '<h2 style="margin-top:2em;">Users with the role <code>storage_submitter</code></h2>';
     $submitters = get_users(array('role' => 'storage_submitter'));
     if (!empty($submitters)) {
         echo '<ul>';
@@ -63,11 +63,11 @@ function loopis_settings_event() {
         }
         echo '</ul>';
     } else {
-        echo '<p><em>Inga användare med denna roll.</em></p>';
+        echo '<p><em>No users with this role.</em></p>';
     }
 
     // List users with storage_booker role
-    echo '<h2 style="margin-top:2em;">Användare med rollen <code>storage_booker</code></h2>';
+    echo '<h2 style="margin-top:2em;">Users with the role <code>storage_booker</code></h2>';
     $bookers = get_users(array('role' => 'storage_booker'));
     if (!empty($bookers)) {
         echo '<ul>';
@@ -77,7 +77,7 @@ function loopis_settings_event() {
         }
         echo '</ul>';
     } else {
-        echo '<p><em>Inga användare med denna roll.</em></p>';
+        echo '<p><em>No users with this role.</em></p>';
     }
     echo '</div>';
 }
