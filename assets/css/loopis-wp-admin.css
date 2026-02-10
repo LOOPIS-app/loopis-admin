@@ -12,6 +12,7 @@
     text-align: center;
     background-repeat: no-repeat !important;
     background-position: center center !important;
+    background-size: 20px 20px !important;
 }
 
 /* Posts icon - hide original */
@@ -33,7 +34,9 @@
 
 /* Other icons */
 #adminmenu .wp-menu-image img {
-    padding: 9px 0 0;
+    width: 20px;
+    height: 20px;
+    padding: 7px 0 0;
     opacity: .6;
 }
 

@@ -10,8 +10,8 @@ if (!defined('ABSPATH')) {
 // Function to display content of settings page
 function loopis_settings_welcome() {
     // Page title and description
-    echo '<h1>⚙ Välkomstmail</h1>';
-    echo '<p>💡 Mail som skickas när ett nytt användarkonto aktiveras.</p>';
+    echo '<h1>⚙ Welcome email</h1>';
+    echo '<p>💡 Email sent when a new user account is activated.</p>';
 
     // Check if the form was submitted
     if (isset($_POST['submit'])) {
