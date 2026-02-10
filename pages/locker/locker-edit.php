@@ -9,10 +9,6 @@ if (!defined('ABSPATH')) {
 
 // Function to display content of page
 function loopis_locker_edit() {
-    // Page title and description
-    echo '<h1>🛠 Redigera skåp</h1>';
-    echo '<p>💡 Gör inställningar för aktiva skåp eller lägg till ett nytt.</p>';
-
     global $wpdb;
     $lockers_table = $wpdb->prefix . 'loopis_lockers';
     
@@ -21,13 +17,14 @@ function loopis_locker_edit() {
     
     // Handle form submission for locker updates
     if (isset($_POST['locker_nonce']) && wp_verify_nonce($_POST['locker_nonce'], 'save_locker')) {
-        if (!empty($_POST['locker_id'])) {
+        if (!empty($_POST['locker_id']) && !empty($_POST['locker_id_original'])) {
             $locker_id = sanitize_text_field($_POST['locker_id']);
+            $locker_id_original = sanitize_text_field($_POST['locker_id_original']);
             $update_data = array();
             
             // Process all form fields except the nonce and locker_id
             foreach ($_POST as $key => $value) {
-                if ($key !== 'locker_nonce' && $key !== 'locker_id' && $key !== 'submit' && $key !== '_wp_http_referer' && $key !== '_wpnonce') {
+                if ($key !== 'locker_nonce' && $key !== 'locker_id_original' && $key !== 'submit' && $key !== '_wp_http_referer' && $key !== '_wpnonce') {
                     // Handle checkbox values (which can be arrays due to hidden field)
                     if (is_array($value)) {
                         // For checkboxes: if array contains '1', checkbox was checked, otherwise use '0'
@@ -39,94 +36,121 @@ function loopis_locker_edit() {
             }
             
             if (!empty($update_data)) {
-                $updated = $wpdb->update($lockers_table, $update_data, ['locker_id' => $locker_id]);
+                $updated = $wpdb->update($lockers_table, $update_data, ['locker_id' => $locker_id_original]);
                 if ($updated !== false) {
-                    echo '<div class="updated"><p>Ändringar har sparats för skåp ' . esc_html($locker_id) . '.</p></div>';
-                } else {
-                    echo '<div class="error"><p>Ett fel uppstod vid sparandet.</p></div>';
+                    $redirect_url = admin_url('admin.php?page=loopis-locker-overview&updated=' . urlencode($locker_id));
+                    if (headers_sent()) {
+                        $redirect_js = wp_json_encode($redirect_url);
+                        echo '<script>window.location.href=' . $redirect_js . ';</script>';
+                        echo '<noscript><meta http-equiv="refresh" content="0;url=' . esc_url($redirect_url) . '"></noscript>';
+                        exit;
+                    }
+                    wp_safe_redirect($redirect_url);
+                    exit;
                 }
+                echo '<div class="error"><p>An error occurred while saving.</p></div>';
+            } else {
+                $redirect_url = admin_url('admin.php?page=loopis-locker-overview&updated=' . urlencode($locker_id_original));
+                if (headers_sent()) {
+                    $redirect_js = wp_json_encode($redirect_url);
+                    echo '<script>window.location.href=' . $redirect_js . ';</script>';
+                    echo '<noscript><meta http-equiv="refresh" content="0;url=' . esc_url($redirect_url) . '"></noscript>';
+                    exit;
+                }
+                wp_safe_redirect($redirect_url);
+                exit;
             }
         }
     }
     
-    // Fetch all lockers for dropdown
-    $lockers = $wpdb->get_results("SELECT locker_id, locker_name FROM $lockers_table ORDER BY locker_id, locker_name");
+    if (empty($selected_locker_id)) {
+        wp_safe_redirect(admin_url('admin.php?page=loopis-locker-overview'));
+        exit;
+    }
 
-    if (empty($lockers)) {
-        echo '<p><em>Inga skåp tillagda ännu.</em></p></div>';
-        return;
+    if (isset($_POST['delete_locker']) && wp_verify_nonce($_POST['delete_locker_nonce'], 'delete_locker')) {
+        $locker_id = sanitize_text_field($_POST['locker_id']);
+        $wpdb->delete($lockers_table, ['locker_id' => $locker_id]);
+        wp_safe_redirect(admin_url('admin.php?page=loopis-locker-overview&deleted=' . urlencode($locker_id)));
+        exit;
     }
-    
-    // Locker selection dropdown
-    echo '<form method="get">';
-    echo '<input type="hidden" name="page" value="' . esc_attr($_GET['page']) . '" />';
-    echo '<h2>Välj ett skåp att redigera</h2>';
-    echo '<select name="locker_id" onchange="this.form.submit();">';
-    echo '<option value="">-- Välj skåp --</option>';
-    foreach ($lockers as $locker) {
-        $selected = ($selected_locker_id === $locker->locker_id) ? 'selected' : '';
-        echo '<option value="' . esc_attr($locker->locker_id) . '" ' . $selected . '>';
-        echo esc_html($locker->locker_id) . ': ' . esc_html($locker->locker_name);
-        echo '</option>';
-    }
-    echo '</select>';
-    echo '</form>';
-    
-    // If a locker is selected, show the edit form
-    if (!empty($selected_locker_id)) {
-        $selected_locker = $wpdb->get_row($wpdb->prepare("SELECT * FROM $lockers_table WHERE locker_id = %s", $selected_locker_id));
-        
-        if ($selected_locker) {
-            echo '<h2>Redigera skåp: ' . esc_html($selected_locker_id) . '</h2>';
-            echo '<form method="post">';
-            wp_nonce_field('save_locker', 'locker_nonce');
-            echo '<input type="hidden" name="locker_id" value="' . esc_attr($selected_locker_id) . '" />';
-            echo '<table class="form-table">';
-            
-            // Get all columns from the table
-            $columns = $wpdb->get_results("SHOW COLUMNS FROM $lockers_table");
-            
-            foreach ($columns as $column) {
-                $column_name = $column->Field;
-                $column_value = $selected_locker->$column_name;
-                
-                // Skip the auto-increment id column
-                if ($column_name === 'id') {
-                    continue;
-                }
-                
-                // Handle locker_id separately (readonly)
-                if ($column_name === 'locker_id') {
-                    echo '<tr><th scope="row"><label>Skåp-ID</label></th>';
-                    echo '<td><strong>' . esc_html($column_value) . '</strong> <em>(kan inte ändras)</em></td></tr>';
-                    continue;
-                }
-                
-                // Create appropriate input field based on column type
-                $field_label = ucfirst(str_replace('_', ' ', $column_name));
-                echo '<tr><th scope="row"><label for="' . esc_attr($column_name) . '">' . esc_html($field_label) . '</label></th>';
-                echo '<td>';
-                
-                // Handle different field types
-                if (strpos($column->Type, 'tinyint(1)') !== false) {
-                    // Boolean fields (checkboxes)
-                    $checked = $column_value ? 'checked' : '';
-                    echo '<input type="hidden" name="' . esc_attr($column_name) . '" value="0" />';
-                    echo '<input type="checkbox" name="' . esc_attr($column_name) . '" id="' . esc_attr($column_name) . '" value="1" ' . $checked . ' />';
-                } else {
-                    // Text fields
-                    echo '<input name="' . esc_attr($column_name) . '" type="text" id="' . esc_attr($column_name) . '" value="' . esc_attr($column_value) . '" class="regular-text" />';
-                }
-                
-                echo '</td></tr>';
-            }
-            
-            echo '</table>';
-            echo '<p class="submit"><input type="submit" class="button-primary" value="Spara ändringar"></p>';
-            echo '</form>';
-        } else {
-            echo '<p><em>Skåpet kunde inte hittas.</em></p>';
+
+    // Page title and description
+    echo '<h1>🛠 Edit locker</h1>';
+    echo '<p>💡 Adjust settings for a locker in your area.</p>';
+
+    $selected_locker = $wpdb->get_row($wpdb->prepare("SELECT * FROM $lockers_table WHERE locker_id = %s", $selected_locker_id));
+
+    if ($selected_locker) {
+        echo '<h2>Edit locker: ' . esc_html($selected_locker_id) . '</h2>';
+        echo '<form method="post">';
+        wp_nonce_field('save_locker', 'locker_nonce');
+        echo '<input type="hidden" name="locker_id" value="' . esc_attr($selected_locker_id) . '" />';
+        echo '<input type="hidden" name="locker_id_original" value="' . esc_attr($selected_locker_id) . '" />';
+        echo '<table class="form-table">';
+
+        // Get all columns from the table
+        $columns = $wpdb->get_results("SHOW COLUMNS FROM $lockers_table");
+        $columns_by_name = array();
+        foreach ($columns as $column) {
+            $columns_by_name[$column->Field] = $column;
         }
+
+        $preferred_order = array('locker_id', 'locker_name', 'postal_code', 'locker_code', 'locker_full');
+        $ordered_columns = array();
+
+        foreach ($preferred_order as $column_name) {
+            if (isset($columns_by_name[$column_name])) {
+                $ordered_columns[] = $columns_by_name[$column_name];
+                unset($columns_by_name[$column_name]);
+            }
+        }
+
+        foreach ($columns_by_name as $column) {
+            $ordered_columns[] = $column;
+        }
+
+        foreach ($ordered_columns as $column) {
+            $column_name = $column->Field;
+            $column_value = $selected_locker->$column_name;
+
+            // Skip the auto-increment id column
+            if ($column_name === 'id') {
+                continue;
+            }
+
+            // Create appropriate input field based on column type
+            $field_label = ucfirst(str_replace('_', ' ', $column_name));
+            echo '<tr><th scope="row"><label for="' . esc_attr($column_name) . '">' . esc_html($field_label) . '</label></th>';
+            echo '<td>';
+
+            // Handle different field types
+            if (strpos($column->Type, 'tinyint(1)') !== false) {
+                // Boolean fields (checkboxes)
+                $checked = $column_value ? 'checked' : '';
+                echo '<input type="hidden" name="' . esc_attr($column_name) . '" value="0" />';
+                echo '<input type="checkbox" name="' . esc_attr($column_name) . '" id="' . esc_attr($column_name) . '" value="1" ' . $checked . ' />';
+            } else {
+                // Text fields
+                echo '<input name="' . esc_attr($column_name) . '" type="text" id="' . esc_attr($column_name) . '" value="' . esc_attr($column_value) . '" class="regular-text" />';
+            }
+
+            echo '</td></tr>';
+        }
+
+        echo '</table>';
+        echo '<p class="submit">';
+        echo '<input type="submit" class="button-primary" value="Save changes"> ';
+        echo '<a class="button" href="' . esc_url(admin_url('admin.php?page=loopis-locker-overview')) . '">Cancel</a>';
+        echo '</p>';
+        echo '</form>';
+        echo '<form method="post" onsubmit="return confirm(\'Are you sure you want to delete this locker?\');">';
+        wp_nonce_field('delete_locker', 'delete_locker_nonce');
+        echo '<input type="hidden" name="locker_id" value="' . esc_attr($selected_locker_id) . '" />';
+        echo '<p><button type="submit" name="delete_locker" class="button button-link-delete">🗑 Delete locker</button></p>';
+        echo '</form>';
+    } else {
+        echo '<p><em>Locker not found.</em></p>';
     }
     
     echo '</div>';

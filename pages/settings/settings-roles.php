@@ -10,8 +10,8 @@ if (!defined('ABSPATH')) {
 // Function to display content of settings page
 function loopis_settings_roles() {
     // Page title and description
-    echo '<h1>👥 Roller</h1>';
-    echo '<p>💡 Lista över aktuella roller i ditt område</p>';
+    echo '<h1>👥 Roles</h1>';
+    echo '<p>💡 List of current roles set for users in your area</p>';
 
     // List roles
     global $wp_roles;
@@ -29,7 +29,7 @@ function loopis_settings_roles() {
         }
     }
     if (empty($custom_roles)) {
-        echo '<p><em>Inga egna roller hittades.</em></p>';
+        echo '<p><em>No custom roles found.</em></p>';
     } else {
         foreach ($custom_roles as $role_key => $role_name) {
             $users = get_users(array('role' => $role_key));
@@ -45,7 +45,7 @@ function loopis_settings_roles() {
                 }
                 echo implode(', ', $user_links);
             } else {
-                echo '<em>Inga användare med denna roll.</em>';
+                echo '<em>No users with this role.</em>';
             }
             echo '</p>';
             // List capabilities (custom only, single line)
@@ -61,7 +61,7 @@ function loopis_settings_roles() {
                 if (!empty($caps)) {
                     echo '<p><strong>Access:</strong><br><code>' . implode('</code>, <code>', $caps) . '</code></p>';
                 } else {
-                    echo '<p><em>Inga egna capabilities tilldelade.</em></p>';
+                    echo '<p><em>No custom capabilities assigned.</em></p>';
                 }
             }
         }

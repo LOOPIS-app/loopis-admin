@@ -16,10 +16,10 @@ function loopis_setup_post_menus() {
     global $menu;
 
     // Change the name of the Posts menu
-    $menu[5][0] = 'Annonser';
+    $menu[5][0] = 'Gifts';
 
     // Add categories as sub-items under "Posts"
-    loopis_add_categories_submenu('Annonser', 'edit.php', 'category');
+    loopis_add_categories_submenu('Gifts', 'edit.php', 'category');
 
     // Add custom post type menus
     loopis_add_custom_post_type_menu('forum', 'Forum', LOOPIS_ADMIN_URL . '/assets/img/wp-admin-menu/icon-forum.png', 'forum-category', 8);
