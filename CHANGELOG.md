@@ -1,5 +1,8 @@
 # 📋 Changelog for "LOOPIS Admin"
 
+## 0.73 (beta)
+- Adjusted the customization of admin menu to sync with "LOOPIS Content"
+
 ## 0.72 (2026-02-10)
 - Adjusted configuration for locker and warnings
 - Added settings for cronjob reports (for reminders only, to test)

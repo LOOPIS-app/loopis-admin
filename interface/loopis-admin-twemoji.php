@@ -4,7 +4,9 @@
  * 
  * Loads Twemoji library to replace native emojis with consistent SVG versions.
  * 
- * @package LOOPIS_Theme
+ * We should later probably host the twemojis locally to avoid external dependencies.
+ * 
+ * @package LOOPIS_Admin
  * @since 0.7
  */
 
@@ -16,7 +18,7 @@ if (!defined('ABSPATH')) {
 /**
  * Add Twemoji script to page head
  */
-function use_twemoji_admin() {
+function loopis_admin_twemoji() {
     ?>
     <script type="text/javascript">
     !function(window, document) {
@@ -69,4 +71,4 @@ function use_twemoji_admin() {
 }
 
 // Add Twemoji to WP Admin area
-add_action('admin_head', 'use_twemoji_admin');
+add_action('admin_head', 'loopis_admin_twemoji');
