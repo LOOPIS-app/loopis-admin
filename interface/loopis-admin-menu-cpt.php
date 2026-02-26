@@ -16,7 +16,7 @@ function loopis_admin_menu_cpt($position) {
     // Register new custom post types here
     $cpt_menus = array(
         array('forum', 'Forum', LOOPIS_ADMIN_URL . '/assets/img/wp-admin-menu/icon-forum.png', 'forum-category'),
-        array('support', 'Support', LOOPIS_ADMIN_URL . '/assets/img/wp-admin-menu/icon-support.png', 'support-category'),
+        array('support', 'Support', LOOPIS_ADMIN_URL . '/assets/img/wp-admin-menu/icon-support.png', 'support-status'),
         array('faq', 'FAQ', LOOPIS_ADMIN_URL . '/assets/img/wp-admin-menu/icon-faq.png', 'faq-category'),
     );
 
