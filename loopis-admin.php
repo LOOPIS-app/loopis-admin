@@ -1,41 +1,37 @@
 <?php
-/*
-Plugin Name: LOOPIS Admin
-Plugin URI: https://github.com/LOOPIS-app/loopis-admin
-Description: Plugin for enhancing the WP Admin area of LOOPIS.app
-Version: 0.72
-Author: The Develoopers
-Author URI: https://loopis.org
-Required Plugins: LOOPIS Config
-*/
+/**
+* Plugin Name:  LOOPIS Admin
+* Plugin URI:   https://github.com/LOOPIS-app/loopis-admin
+* Description:  Plugin configuring the WP Admin area of LOOPIS.app
+* Version:      0.73 (beta)
+* Author:       The Develoopers
+* Author URI:   https://loopis.org
+* Text Domain:  loopis-admin
+**/
 
 // Prevent direct access
-if (!defined('ABSPATH')) { 
-    exit; 
-}
+if (!defined('ABSPATH')) { exit; }
 
 // Run only in admin area
-if (!is_admin()) {
-    return;
-}
+if (!is_admin()) { return; }
 
 // Define plugin version
-define('LOOPIS_ADMIN_VERSION', '0.72');
+define('LOOPIS_ADMIN_VERSION', '0.73');
 
 // Define plugin folder path constants
 define('LOOPIS_ADMIN_DIR', plugin_dir_path(__FILE__)); // Server-side path to /wp-content/plugins/loopis-admin/
 define('LOOPIS_ADMIN_URL', plugin_dir_url(__FILE__));  // Client-side path to https://site.com/wp-content/plugins/loopis-admin/
 
-// Enqueue admin CSS
+// Enqueue CSS
 add_action('admin_enqueue_scripts', 'loopis_admin_enqueue_assets');
 
 function loopis_admin_enqueue_assets() {
-    // Enqueue admin menu styles
+    // Enqueue styles
     wp_enqueue_style(
-        'loopis-wp-admin-styles',
-        LOOPIS_ADMIN_URL . 'assets/css/loopis-wp-admin.css',
+        'loopis-admin-styles',
+        LOOPIS_ADMIN_URL . 'assets/css/loopis-admin.css',
         array(),
-        filemtime(LOOPIS_ADMIN_DIR . 'assets/css/loopis-wp-admin.css')
+        filemtime(LOOPIS_ADMIN_DIR . 'assets/css/loopis-admin.css')
     );
 }
 
