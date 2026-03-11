@@ -2,6 +2,7 @@
 
 ## 0.73 (beta)
 - Adjusted the customization of admin menu to sync with "LOOPIS Content"
+- Added license GPL-3.0-or-later
 
 ## 0.72 (2026-02-10)
 - Adjusted configuration for locker and warnings

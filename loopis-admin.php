@@ -2,12 +2,23 @@
 /**
 * Plugin Name:  LOOPIS Admin
 * Plugin URI:   https://github.com/LOOPIS-app/loopis-admin
-* Description:  Plugin configuring the WP Admin area of LOOPIS.app
+* Description:  Plugin for configuring the WP Admin area of LOOPIS.app
 * Version:      0.73 (beta)
 * Author:       The Develoopers
 * Author URI:   https://loopis.org
+* License:      GPL-3.0-or-later
+* License URI:  https://www.gnu.org/licenses/gpl-3.0.html
 * Text Domain:  loopis-admin
 **/
+
+/*
+ * Copyright (C) 2026 LOOPIS association
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ */
 
 // Prevent direct access
 if (!defined('ABSPATH')) { exit; }
