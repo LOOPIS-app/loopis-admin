@@ -20,19 +20,20 @@
     content: none !important;
 }
 
-/* Posts icon - LOOPIS custom */
+/* Posts icon - insert gift twemoji */
 #adminmenu #menu-posts .wp-menu-image {
-    background-image: url('../img/wp-admin-menu/icon-posts.png') !important;
+    background-image: url('../img/wp-admin-menu/icon-gifts.png') !important;
     opacity: .6;
 }
 
 /* Posts icon - hover and active state */
-#adminmenu li.menu-top:hover #menu-posts .wp-menu-image,
-#adminmenu li.wp-has-current-submenu #menu-posts .wp-menu-image {
+#adminmenu #menu-posts:hover .wp-menu-image,
+#adminmenu #menu-posts.wp-has-current-submenu .wp-menu-image,
+#adminmenu #menu-posts.current .wp-menu-image {
     opacity: 1;
 }
 
-/* Other icons */
+/* Other twemoji icons */
 #adminmenu .wp-menu-image img {
     width: 20px;
     height: 20px;
@@ -40,7 +41,7 @@
     opacity: .6;
 }
 
-/* Other icons - hover and active state  */
+/* Other twemoji icons - hover and active state  */
 #adminmenu li.menu-top:hover .wp-menu-image img, 
 #adminmenu li.wp-has-current-submenu .wp-menu-image img {
     opacity: 1;

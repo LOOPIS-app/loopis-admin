@@ -1,5 +1,9 @@
 # 📋 Changelog for "LOOPIS Admin"
 
+## 0.73 (2026-04-14)
+- Adjusted the customization of admin menu to sync with "LOOPIS Content"
+- Added license GPL-3.0-or-later
+
 ## 0.72 (2026-02-10)
 - Adjusted configuration for locker and warnings
 - Added settings for cronjob reports (for reminders only, to test)
