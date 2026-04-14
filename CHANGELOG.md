@@ -1,6 +1,6 @@
 # 📋 Changelog for "LOOPIS Admin"
 
-## 0.73 (beta)
+## 0.73 (2026-04-14)
 - Adjusted the customization of admin menu to sync with "LOOPIS Content"
 - Added license GPL-3.0-or-later
 
