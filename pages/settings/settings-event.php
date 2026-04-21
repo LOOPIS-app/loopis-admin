@@ -1,6 +1,6 @@
 <?php
 /**
- * Page with settings for LOOPIS admin.
+ * Page listing user roles.
  */
  
 if (!defined('ABSPATH')) {
@@ -52,9 +52,9 @@ function loopis_settings_event() {
     echo '<p class="submit"><input type="submit" class="button-primary" value="Save changes"></p>';
     echo '</form>';
 
-    // List users with storage_submitter role
-    echo '<h2 style="margin-top:2em;">Users with the role <code>storage_submitter</code></h2>';
-    $submitters = get_users(array('role' => 'storage_submitter'));
+    // List users with stocker role
+    echo '<h2 style="margin-top:2em;">Users with the role <code>stocker</code></h2>';
+    $submitters = get_users(array('role' => 'stocker'));
     if (!empty($submitters)) {
         echo '<ul>';
         foreach ($submitters as $user) {
@@ -66,18 +66,4 @@ function loopis_settings_event() {
         echo '<p><em>No users with this role.</em></p>';
     }
 
-    // List users with storage_booker role
-    echo '<h2 style="margin-top:2em;">Users with the role <code>storage_booker</code></h2>';
-    $bookers = get_users(array('role' => 'storage_booker'));
-    if (!empty($bookers)) {
-        echo '<ul>';
-        foreach ($bookers as $user) {
-            $edit_url = admin_url('user-edit.php?user_id=' . $user->ID);
-            echo '<li><a href="' . esc_url($edit_url) . '" target="_blank">' . esc_html($user->display_name) . '</a></li>';
-        }
-        echo '</ul>';
-    } else {
-        echo '<p><em>No users with this role.</em></p>';
-    }
-    echo '</div>';
 }
