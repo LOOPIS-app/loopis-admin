@@ -8,9 +8,9 @@ if (!defined('ABSPATH')) {
 }
 
 function loopis_setting_textarea_to_br($value) {
-    return str_replace(["\r\n", "\r", "\n"], '<br>', $value);
+    return str_replace(["\r\n", "\r", "\n"], '<br>', (string) ($value ?? ''));
 }
 
 function loopis_setting_textarea_from_br($value) {
-    return str_replace(['<br />', '<br/>', '<br>'], "\n", $value);
+    return str_replace(['<br />', '<br/>', '<br>'], "\n", (string) ($value ?? ''));
 }

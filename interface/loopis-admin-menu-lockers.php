@@ -43,7 +43,7 @@ function loopis_admin_menu_lockers($position) {
 
     // Add hidden edit page (accessible only via direct link)
     add_submenu_page(
-        null,
+        '',
         'Edit locker',
         'Edit locker',
         'manage_options',
@@ -53,7 +53,7 @@ function loopis_admin_menu_lockers($position) {
 
     // Add hidden add page (accessible only via direct link)
     add_submenu_page(
-        null,
+        '',
         'Add locker',
         'Add locker',
         'manage_options',
