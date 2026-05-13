@@ -1,23 +1,33 @@
 <?php
 /**
  * Configure menu items for regular posts
+ * 
+ * TODO:
+ * What will regular posts be on main site? Active and planned lockers?
  */
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
+// Inject icon CSS for the Posts menu item (HQ/main site)
+add_action('admin_enqueue_scripts', function() {
+    $icon_url = LOOPIS_ADMIN_URL . 'assets/img/admin-menu/icon-locker.png';
+    $css = "#adminmenu #menu-posts .wp-menu-image { background-image: url('{$icon_url}') !important; opacity: .6; }";
+    wp_add_inline_style('loopis-admin-styles', $css);
+});
+
 /**
  * Configure menu item for regular post type
  */
-function loopis_admin_menu_gifts($position) {
+function loopis_admin_menu_posts($position) {
     global $menu;
 
     // Change the name of the menu item
-    $menu[5][0] = 'Gifts';
+    $menu[5][0] = 'Lockers';
 
-    // Add category shortcuts under Gifts
-    loopis_admin_menu_categories('Gifts', 'edit.php', 'category');
+    // Add category shortcuts under Lockers
+    loopis_admin_menu_categories('Lockers', 'edit.php', 'category');
 
     // Return next position for further menu items
     $position++;

@@ -1,5 +1,8 @@
 # 📋 Changelog for "LOOPIS Admin"
 
+## 0.74 (2026-05-13)
+- Support for multisite: separate configuration for HQ & Local. (WIP)
+
 ## 0.73 (2026-04-14)
 - Adjusted the customization of admin menu to sync with "LOOPIS Content"
 - Added license GPL-3.0-or-later

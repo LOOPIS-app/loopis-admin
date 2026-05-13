@@ -7,6 +7,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Load page rendering callbacks
+require_once LOOPIS_ADMIN_DIR . 'pages/local/locker/locker-overview.php';
+require_once LOOPIS_ADMIN_DIR . 'pages/local/locker/locker-messages.php';
+require_once LOOPIS_ADMIN_DIR . 'pages/local/locker/locker-edit.php';
+require_once LOOPIS_ADMIN_DIR . 'pages/local/locker/locker-add.php';
+
 /**
  * Add custom admin menu items
  */
@@ -18,7 +24,7 @@ function loopis_admin_menu_lockers($position) {
         'manage_options',
         'loopis-locker-overview',
         'loopis_locker_overview',
-        LOOPIS_ADMIN_URL . '/assets/img/wp-admin-menu/icon-locker.png',
+        LOOPIS_ADMIN_URL . '/assets/img/admin-menu/icon-locker.png',
         $position
     );
 

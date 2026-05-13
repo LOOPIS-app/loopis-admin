@@ -7,6 +7,14 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Load page rendering callbacks
+require_once LOOPIS_ADMIN_DIR . 'pages/local/settings/settings-general.php';
+require_once LOOPIS_ADMIN_DIR . 'pages/local/settings/settings-event.php';
+require_once LOOPIS_ADMIN_DIR . 'pages/local/settings/settings-postal-codes.php';
+require_once LOOPIS_ADMIN_DIR . 'pages/local/settings/settings-reports.php';
+require_once LOOPIS_ADMIN_DIR . 'pages/local/settings/settings-roles.php';
+require_once LOOPIS_ADMIN_DIR . 'pages/local/settings/settings-welcome.php';
+
 /**
  * Add custom admin menu items
  */
@@ -18,7 +26,7 @@ function loopis_admin_menu_settings($position) {
         'manage_options',
         'loopis-settings-general',
         'loopis_settings_general',
-        LOOPIS_ADMIN_URL . '/assets/img/wp-admin-menu/icon-settings.png',
+        LOOPIS_ADMIN_URL . '/assets/img/admin-menu/icon-settings.png',
         $position
     );
 

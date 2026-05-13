@@ -3,7 +3,7 @@
 * Plugin Name:  LOOPIS Admin
 * Plugin URI:   https://github.com/LOOPIS-app/loopis-admin
 * Description:  Plugin for configuring the WP Admin area of LOOPIS.app
-* Version:      0.73
+* Version:      0.74
 * Author:       The Develoopers
 * Author URI:   https://loopis.org
 * License:      GPL-3.0-or-later
@@ -23,11 +23,11 @@
 // Prevent direct access
 if (!defined('ABSPATH')) { exit; }
 
-// Run only in admin area
+// Skip for frontend
 if (!is_admin()) { return; }
 
 // Define plugin version
-define('LOOPIS_ADMIN_VERSION', '0.73');
+define('LOOPIS_ADMIN_VERSION', '0.74');
 
 // Define plugin folder path constants
 define('LOOPIS_ADMIN_DIR', plugin_dir_path(__FILE__)); // Server-side path to /wp-content/plugins/loopis-admin/
@@ -46,14 +46,6 @@ function loopis_admin_enqueue_assets() {
     );
 }
 
-// Define folders to load
-function loopis_admin_load_files() {
-    loopis_admin_include_folder('interface');
-    loopis_admin_include_folder('functions');
-    loopis_admin_include_folder('pages/locker');
-    loopis_admin_include_folder('pages/settings');
-}
-
 // Utility function to include all PHP files in a folder
 function loopis_admin_include_folder($folder_name) {
     $absolute_path = LOOPIS_ADMIN_DIR . '/' . $folder_name;
@@ -66,5 +58,26 @@ function loopis_admin_include_folder($folder_name) {
     }
 }
 
-// Load files when all plugins are loaded
-add_action('plugins_loaded', 'loopis_admin_load_files');
+// Define folders to load
+function loopis_admin_load_files() {
+    loopis_admin_include_folder('functions/common');
+    loopis_admin_include_folder('functions/local');
+}
+
+function loopis_admin_hq_load_files() {
+    loopis_admin_include_folder('functions/common');
+    loopis_admin_include_folder('functions/hq');
+}
+
+// Load different files for main site and single/sub-sites (when all plugins are loaded)
+if ( is_multisite() && is_main_site() ) :
+
+    // Load files for main site
+    add_action('plugins_loaded', 'loopis_admin_hq_load_files');
+
+else :
+
+    // Load files for single/sub-sites
+    add_action('plugins_loaded', 'loopis_admin_load_files');
+
+endif;

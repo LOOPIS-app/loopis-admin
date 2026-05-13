@@ -2,7 +2,7 @@
 **Plugin for configuring the WP Admin area of LOOPIS.app**
 
 ## 💡 Status
-Changes to the WP admin area of LOOPIS.app are made here when needed, aiming to improve the interface and functionality for people acting behind the scenes.
+Changes to the WP admin area of LOOPIS.app are made here when needed.
 
 ## 📋 Changelog
 See [CHANGELOG.md](CHANGELOG.md)

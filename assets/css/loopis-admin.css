@@ -20,12 +20,6 @@
     content: none !important;
 }
 
-/* Posts icon - insert gift twemoji */
-#adminmenu #menu-posts .wp-menu-image {
-    background-image: url('../img/wp-admin-menu/icon-gifts.png') !important;
-    opacity: .6;
-}
-
 /* Posts icon - hover and active state */
 #adminmenu #menu-posts:hover .wp-menu-image,
 #adminmenu #menu-posts.wp-has-current-submenu .wp-menu-image,
