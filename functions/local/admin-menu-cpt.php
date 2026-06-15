@@ -25,7 +25,6 @@ function loopis_admin_menu_cpt($position) {
     $cpt_menus = array(
         array('forum', 'Forum', LOOPIS_ADMIN_URL . '/assets/img/admin-menu/icon-forum.png', 'forum-category'),
         array('support', 'Support', LOOPIS_ADMIN_URL . '/assets/img/admin-menu/icon-support.png', 'support-category'),
-        array('faq', 'FAQ', LOOPIS_ADMIN_URL . '/assets/img/admin-menu/icon-faq.png', '', 'faq-tag'),
     );
 
     $added_cpt_menus = 0;
