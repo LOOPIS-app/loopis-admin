@@ -9,15 +9,6 @@ if (!defined('ABSPATH')) {
 
 // Function to display content of settings page
 function loopis_locker_messages() {
-    // ONE-TIME MIGRATION: Merge leave/fetch warnings into one: locker_full_warning
-    if (function_exists('loopis_rename_setting') && function_exists('loopis_delete_setting')) {
-        $full_exists = loopis_get_setting('locker_full_warning', null);
-        if ($full_exists === null) {
-            loopis_rename_setting('locker_fetch_warning', 'locker_full_warning');
-            loopis_delete_setting('locker_leave_warning');
-        }
-    }
-
     // Handle form submission
     if (isset($_POST['submit_locker_messages']) && wp_verify_nonce($_POST['locker_messages_nonce'], 'looper_messages_action')) {
         // Update full locker warning
