@@ -15,7 +15,7 @@ function loopis_locker_overview() {
     echo '<p>💡 Lockers in your area.</p>';
 
     global $wpdb;
-    $table_name = $wpdb->prefix . 'loopis_lockers';
+    $table_name = $wpdb->prefix . 'loopis_settings';
     $message = '';
 
     if (!empty($_GET['added'])) {
@@ -32,7 +32,7 @@ function loopis_locker_overview() {
         $updated_id = sanitize_text_field(wp_unslash($_GET['updated']));
         $message = '<div class="updated"><p>Locker updated: ' . esc_html($updated_id) . '</p></div>';
     }
-
+    /*
     // ONE-TIME MIGRATION: Merge leave/fetch flags into one: locker_full
     $columns = $wpdb->get_col("SHOW COLUMNS FROM $table_name");
     $has_full = in_array('locker_full', $columns, true);
@@ -60,7 +60,7 @@ function loopis_locker_overview() {
             $wpdb->query("ALTER TABLE $table_name DROP COLUMN leave_warning");
         }
     }
-
+    */
     // Fetch all lockers
     $lockers = $wpdb->get_results("SELECT * FROM $table_name ORDER BY postal_code, locker_id");
 
