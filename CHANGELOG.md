@@ -1,5 +1,8 @@
 # 📋 Changelog for "LOOPIS Admin"
 
+## 0.75 (2026-08-25)
+- CPT revision
+
 ## 0.74 (2026-05-13)
 - Support for multisite: separate configuration for HQ & Local. (WIP)
 

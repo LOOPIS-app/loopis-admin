@@ -3,7 +3,7 @@
 * Plugin Name:  LOOPIS Admin
 * Plugin URI:   https://github.com/LOOPIS-app/loopis-admin
 * Description:  Plugin for configuring the WP Admin area of LOOPIS.app
-* Version:      0.74
+* Version:      0.75
 * Author:       The Develoopers
 * Author URI:   https://loopis.org
 * License:      GPL-3.0-or-later
@@ -27,7 +27,7 @@ if (!defined('ABSPATH')) { exit; }
 if (!is_admin()) { return; }
 
 // Define plugin version
-define('LOOPIS_ADMIN_VERSION', '0.74');
+define('LOOPIS_ADMIN_VERSION', '0.75'); // Update version number here + add to CHANGELOG.md
 
 // Define plugin folder path constants
 define('LOOPIS_ADMIN_DIR', plugin_dir_path(__FILE__)); // Server-side path to /wp-content/plugins/loopis-admin/
