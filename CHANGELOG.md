@@ -1,7 +1,8 @@
 # 📋 Changelog for "LOOPIS Admin"
 
-## 0.75 (2026-08-25)
-- CPT revision
+## 0.75 (2026-08-26)
+- CPT revision: 'forum' renamed to 'news'
+- WP Admin text editor tweaks initiated
 
 ## 0.74 (2026-05-13)
 - Support for multisite: separate configuration for HQ & Local. (WIP)

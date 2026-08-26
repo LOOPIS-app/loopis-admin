@@ -24,8 +24,7 @@ function loopis_admin_menu_cpt($position) {
     // ]
     $cpt_menus = array(
         array('news', 'News', LOOPIS_ADMIN_URL . '/assets/img/admin-menu/icon-news.png', 'news-category'),
-        array('forum', 'Forum', LOOPIS_ADMIN_URL . '/assets/img/admin-menu/icon-forum.png', 'forum-category'),
-        array('support', 'Support (X)', LOOPIS_ADMIN_URL . '/assets/img/admin-menu/icon-support.png', 'support-category'),
+        array('support', 'Support', LOOPIS_ADMIN_URL . '/assets/img/admin-menu/icon-support.png', 'support-category'),
     );
 
     $added_cpt_menus = 0;
