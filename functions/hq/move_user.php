@@ -65,6 +65,7 @@ function migrate_user_to_site( int $user_id, int $source_blog_id, int $target_bl
             $target_user->add_role($role);
         }
     }
+    $target_user->remove_role('member_archived');
 
     restore_current_blog();
 
@@ -150,16 +151,6 @@ function move_post(
         throw new Exception( 'This function requires WordPress multisite.' );
     }
 
-    $migration_ids = get_post_meta($post_id, 'migration_ids', true);
-
-    if (is_array($migration_ids)){
-        if(isset($migration_ids[(string) $target_blog_id])){
-            remove_post($post_id);
-            revive_post($migration_ids[(string) $target_blog_id]);
-            return $migration_ids[(string) $target_blog_id];
-        }
-    }
-
 
     $site_ids = array_map(
         'intval',
@@ -185,7 +176,18 @@ function move_post(
     $original_blog_id = get_current_blog_id();
 
     switch_to_blog( $source_blog_id );
-
+    $migration_ids = get_post_meta($post_id, 'migration_ids',true);
+    
+    if (is_array($migration_ids)){
+        if(array_key_exists( $target_blog_id, $migration_ids )){
+            $new_post_id = (int) $migration_ids[$target_blog_id];
+            remove_post($post_id, 'migrated', $target_blog_id, $new_post_id);
+            switch_to_blog( $target_blog_id );
+            revive_post($new_post_id);
+            switch_to_blog(  $original_blog_id );
+            return $new_post_id;
+        }
+    }
     try {
         $source_post = get_post( $post_id );
 
@@ -256,6 +258,14 @@ function move_post(
         }
 
         $new_post_id = (int) $new_post_id;
+        if (!is_array($migration_ids)) {
+            $migration_ids = [];
+        }
+
+        $migration_ids[$target_blog_id] = $new_post_id;
+        $migration_ids[$source_blog_id] = $post_id;
+
+        update_post_meta($new_post_id, 'migration_ids', $migration_ids);
 
         foreach ( $meta_rows as $meta_key => $values ) {
             foreach ( $values as $meta_value ) {
@@ -363,18 +373,8 @@ function move_post(
     if(!function_exists('add_admin_comment')){
         include_once LOOPIS_THEME_DIR .'/includes/functions/user/admin-post-comment.php';
     }
-
-    if (!is_array($migration_ids)) {
-        $migration_ids = [];
-    }
-
-    $migration_ids[(string) $target_blog_id] = $new_post_id;
-    $migration_ids[(string) $source_blog_id] = $post_id;
-
     update_post_meta($post_id, 'migration_ids', $migration_ids);
-    remove_post($post_id, 'migrated');
-    add_admin_comment('<p class="migrated">
-		Denna annons har flyttats till :  '. get_blog_option( $target_blog_id, 'blogname' ) .'</p>', $post_id, 1);
+    remove_post($post_id, 'migrated',$target_blog_id, $new_post_id);
     loopis_ledger_add_post('submitted', $post_data['post_author'] , $post_id, ['timestamp' => current_time('Y-m-d H:i:s'), 'description' => 'revived', 'clovers'=>0]);
     switch_to_blog( $original_blog_id );
 
@@ -383,17 +383,19 @@ function move_post(
 
 function revive_post(int $post_id, string $description = ''){
     // Set post meta
+    $timestamp = current_time('Y-m-d H:i:s');
 	wp_set_object_terms( $post_id, null, 'category' ); 
 	wp_set_object_terms( $post_id, 'old', 'category' );
 	update_post_meta($post_id,'remove_date', null);
+    $author_id = get_post_field( 'post_author', $post_id );
 	update_post_meta($post_id,'extend_date', current_time('Y-m-d H:i:s'));
     loopis_ledger_add_post('removed', $author_id , $post_id, ['timestamp' => $timestamp, 'description' => $description, 'clovers'=>0]);
 	
-	// Leave comment by author
-	add_comment ('<p class="unremove">🌀 Annons publicerad igen.</p>', $post_id );
+	// Leave comment by Nisse
+    add_admin_comment ('<p class="unremove">🧟 Annons migrerad tillbaka.</p>', $post_id, 4);
 }
 
-function remove_post(int $post_id, string $description = '') {
+function remove_post(int $post_id, string $description = '',  int $blog_id = 1, int $new_post_id = 1) {
     // Set post meta
 	$timestamp = current_time('Y-m-d H:i:s');
 	wp_set_object_terms( $post_id, null, 'category' ); 
@@ -401,19 +403,17 @@ function remove_post(int $post_id, string $description = '') {
 	$author_id = get_post_field( 'post_author', $post_id );
 	$fetcher_id = (int) get_post_meta($post_id,'fetcher', true);
 	
-	// Send notification to fetcher and update ledger
-	if($fetcher_id>0){
-		loopis_ledger_add_post('cancelled', $fetcher_id , $post_id, ['timestamp' => $timestamp, 'type' => 'removed', 'description' => $description]);
-		send_admin_notification_email('❌ Annonsen har tyvärr tagits bort. <br>❤️‍🩹 Du har fått tillbaka ditt regnbågsmynt.', $post_id, 2, $fetcher_id);
-	}
 	update_post_meta($post_id,'fetcher', null);
+    update_post_meta($post_id,'participants', null);
 	update_post_meta($post_id,'remove_date', $timestamp);
 
 	// Update ledger
 	loopis_ledger_add_post('removed', $author_id , $post_id, ['timestamp' => $timestamp, 'description' => $description]);
 	
 	// Leave comment by author
-	add_admin_comment ('<p class="remove">❌ Annons borttagen.</p>', $post_id, 4);
+	add_admin_comment('<p class="migrated">
+		❌ Denna annons har flyttats till :  <a href="' . esc_url(add_query_arg('p',(int) $new_post_id, get_home_url( (int) $blog_id, '/' ))) .'">'. get_blog_option( $blog_id, 'blogname' ) .'</a></p>', $post_id, 4);
+  
 }
 
 
@@ -570,7 +570,6 @@ function copy_post_attachments(
 				$new_attachment_id
 			);
         }
-        error_log('meta_2: '. $meta_image_2.' meta_3: '.$meta_image_3 . ' Old_id: '.$attachment_data['old_id']);
 
 		if ( $attachment_data['alt'] !== '' ) {
 			update_post_meta(
