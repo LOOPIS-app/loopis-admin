@@ -183,7 +183,7 @@ function move_post(
             $new_post_id = (int) $migration_ids[$target_blog_id];
             remove_post($post_id, 'migrated', $target_blog_id, $new_post_id);
             switch_to_blog( $target_blog_id );
-            revive_post($new_post_id);
+            revive_post($new_post_id, 'migrated');
             switch_to_blog(  $original_blog_id );
             return $new_post_id;
         }
@@ -389,7 +389,7 @@ function revive_post(int $post_id, string $description = ''){
 	update_post_meta($post_id,'remove_date', null);
     $author_id = get_post_field( 'post_author', $post_id );
 	update_post_meta($post_id,'extend_date', current_time('Y-m-d H:i:s'));
-    loopis_ledger_add_post('removed', $author_id , $post_id, ['timestamp' => $timestamp, 'description' => $description, 'clovers'=>0]);
+    loopis_ledger_add_post('submitted', $author_id , $post_id, ['timestamp' => $timestamp, 'description' => $description, 'clovers'=>0]);
 	
 	// Leave comment by Nisse
     add_admin_comment ('<p class="unremove">🧟 Annons migrerad tillbaka.</p>', $post_id, 4);
