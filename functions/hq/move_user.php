@@ -113,7 +113,7 @@ function migrate_user_active_posts( int $user_id, int $source_blog_id, int $targ
             'post_status'    => 'publish',
             'post_type'      => 'any',
             'posts_per_page' => -1,
-            'category__in'   =>loopis_cats(['old', 'new']),
+            'category__in'   =>loopis_cats(['old']),//, 'new']),
             'fields'         => 'ids',
             ),
         );
