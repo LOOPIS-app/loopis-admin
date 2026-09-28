@@ -195,7 +195,7 @@ function move_post(
             throw new Exception( 'Source post not found.' );
         }
 
-        $meta_rows = get_post_meta( $post_id );
+        $location = get_post_meta( $post_id ,'location', true);
         $terms_by_taxonomy = array();
 
         foreach ( get_object_taxonomies( $source_post->post_type, 'names' ) as $taxonomy ) {
@@ -215,8 +215,8 @@ function move_post(
         
         $post_data = array(
             'post_author'           => (int) $source_post->post_author,
-            'post_date'             => $source_post->post_date,
-            'post_date_gmt'         => $source_post->post_date_gmt,
+            'post_date'             =>  current_time( 'mysql' ),
+            'post_date_gmt'         =>  current_time( 'mysql', true ),
             'post_content'          => $source_post->post_content,
             'post_title'            => $source_post->post_title,
             'post_excerpt'          => $source_post->post_excerpt,
@@ -240,6 +240,10 @@ function move_post(
     }
 
     switch_to_blog( $target_blog_id );
+    $terms_by_taxonomy[ 'category' ] = array(array(
+                    'name' => '⏳ Lottning',
+                    'slug' => 'new',
+                ));
 
     try {
         if ( ! post_type_exists( $post_data['post_type'] ) ) {
@@ -266,18 +270,7 @@ function move_post(
         $migration_ids[$source_blog_id] = $post_id;
 
         update_post_meta($new_post_id, 'migration_ids', $migration_ids);
-
-        foreach ( $meta_rows as $meta_key => $values ) {
-            foreach ( $values as $meta_value ) {
-                add_post_meta(
-                    $new_post_id,
-                    $meta_key,
-                    maybe_unserialize( $meta_value )
-                );
-            }
-        }
-        update_post_meta($new_post_id,'fetcher', null);
-        update_post_meta($new_post_id,'participants', null);
+        update_post_meta($new_post_id, 'location', $location);
 
         $url_map = copy_post_attachments(
 	        $post_id,
@@ -285,6 +278,9 @@ function move_post(
 	        $source_blog_id,
 	        $target_blog_id
         );
+        add_admin_comment('<p class="migrated">
+		    🚛 Denna annons har flyttats från <a href="' . esc_url(add_query_arg('p',(int) $post_id, get_home_url( (int) $source_blog_id, '/' ))) .'">'. get_blog_option( $source_blog_id, 'blogname' ) .'</a></p>', $new_post_id, 4);
+  
 
 
         $target_post = get_post($new_post_id);
@@ -412,7 +408,7 @@ function remove_post(int $post_id, string $description = '',  int $blog_id = 1, 
 	
 	// Leave comment by author
 	add_admin_comment('<p class="migrated">
-		❌ Denna annons har flyttats till :  <a href="' . esc_url(add_query_arg('p',(int) $new_post_id, get_home_url( (int) $blog_id, '/' ))) .'">'. get_blog_option( $blog_id, 'blogname' ) .'</a></p>', $post_id, 4);
+		❌ Denna annons har flyttats till <a href="' . esc_url(add_query_arg('p',(int) $new_post_id, get_home_url( (int) $blog_id, '/' ))) .'">'. get_blog_option( $blog_id, 'blogname' ) .'</a></p>', $post_id, 4);
   
 }
 
