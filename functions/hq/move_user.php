@@ -39,7 +39,7 @@ function migrate_user_to_site( int $user_id, int $source_blog_id, int $target_bl
 
     $source_user = new WP_User( $user_id );
     $roles       = $source_user->roles;
-    $source_user->set_role( 'member_archived' );
+    $source_user->set_role( 'member_earlier' );
 
     restore_current_blog();
 
@@ -65,7 +65,7 @@ function migrate_user_to_site( int $user_id, int $source_blog_id, int $target_bl
             $target_user->add_role($role);
         }
     }
-    $target_user->remove_role('member_archived');
+    $target_user->remove_role('member_earlier');
 
     restore_current_blog();
 
