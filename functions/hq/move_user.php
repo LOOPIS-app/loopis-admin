@@ -57,7 +57,6 @@ function migrate_user_to_site( int $user_id, int $source_blog_id, int $target_bl
             return $result;
         }
     }
-
     $target_user = new WP_User( $user_id );
 
     foreach($roles as $role){
@@ -68,7 +67,7 @@ function migrate_user_to_site( int $user_id, int $source_blog_id, int $target_bl
     $target_user->remove_role('member_earlier');
 
     restore_current_blog();
-
+    update_user_meta($user_id,'primary_blog',$target_blog_id);
     return array(
         'user_id'      => $user_id,
         'source_site'  => $source_blog_id,

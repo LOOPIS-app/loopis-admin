@@ -62,12 +62,14 @@ function loopis_admin_include_folder($folder_name) {
 function loopis_admin_load_files() {
     loopis_admin_include_folder('functions/common');
     loopis_admin_include_folder('functions/local');
+    loopis_admin_include_folder('pages/table-altering');
 }
 
 function loopis_admin_hq_load_files() {
     loopis_admin_include_folder('functions/common');
     loopis_admin_include_folder('functions/hq');
     loopis_admin_include_folder('pages/hq');
+    loopis_admin_include_folder('pages/table-altering');
 }
 
 // Load different files for main site and single/sub-sites (when all plugins are loaded)
@@ -80,5 +82,4 @@ else :
 
     // Load files for single/sub-sites
     add_action('plugins_loaded', 'loopis_admin_load_files');
-
 endif; 
