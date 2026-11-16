@@ -8,11 +8,9 @@ if (!defined('ABSPATH')) {
 }
 
 // Include functions
-require_once LOOPIS_ADMIN_DIR . 'functions/local/admin-menu-posts.php';
-require_once LOOPIS_ADMIN_DIR . 'functions/local/admin-menu-cpt.php';
-require_once LOOPIS_ADMIN_DIR . 'functions/local/admin-menu-lockers.php';
-require_once LOOPIS_ADMIN_DIR . 'functions/local/admin-menu-settings.php';
-require_once LOOPIS_ADMIN_DIR . 'functions/local/admin-menu-reorder.php';
+require_once LOOPIS_ADMIN_DIR . 'menu/mainsite/admin-menu-posts.php';
+require_once LOOPIS_ADMIN_DIR . 'menu/mainsite/admin-menu-cpt.php';
+require_once LOOPIS_ADMIN_DIR . 'menu/mainsite/admin-menu-reorder.php';
 
 // Add action with high priority to run after WordPress core menus
 add_action('admin_menu', 'loopis_admin_menu', 999);
@@ -28,8 +26,7 @@ function loopis_admin_menu() {
     $position = loopis_admin_menu_cpt($position);
 
     // Configure custom pages menu items
-    $position = loopis_admin_menu_lockers($position);
-    $position = loopis_admin_menu_settings($position);
+    // No pages added yet
 
     // Reorder menu items
     loopis_admin_menu_reorder($position);

@@ -23,8 +23,8 @@ function loopis_admin_menu_cpt($position) {
     //   4: tag taxonomies (string or array of slugs) to show as "Tags" submenu
     // ]
     $cpt_menus = array(
-        array('news', 'News', LOOPIS_ADMIN_URL . '/assets/img/admin-menu/icon-news.png', 'news-category'),
-        array('support', 'Support', LOOPIS_ADMIN_URL . '/assets/img/admin-menu/icon-support.png', 'support-category'),
+        array('news', 'News', LOOPIS_ADMIN_URL . '/assets/icons/icon-news.png', 'news-category'),
+        array('support', 'Support', LOOPIS_ADMIN_URL . '/assets/icons/icon-support.png', 'support-category'),
     );
 
     $added_cpt_menus = 0;

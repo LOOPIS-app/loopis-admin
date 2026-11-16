@@ -1,14 +1,11 @@
 # 🧩 LOOPIS Admin
-**Plugin for configuring the WP Admin area of LOOPIS.app**
+**Plugin for customizing the WP Admin area of LOOPIS.app**
 
 ## 💡 Status
-Changes to the WP admin area of LOOPIS.app are made here when needed.
+General changes to the WP admin area of LOOPIS.app are made here when needed.
 
-## 📋 Changelog
-See [CHANGELOG.md](CHANGELOG.md)
-
-## 💾 Installation
-Installation & updates are managed by plugin "LOOPIS Config".
+## 🚧 Access
+This plugin loads only in the WordPress admin area.
 
 ## 👤 Contributors
-Johan Hagvil
+Johan Hagvil, Copilot

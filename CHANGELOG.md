@@ -1,5 +1,9 @@
 # 📋 Changelog for "LOOPIS Admin"
 
+## 0.76 (2026-11-16)
+- Revised interface and structure
+- Moved "Move user" and "QR Codes" to new plugin "LOOPIS Webmaster".
+
 ## 0.75 (2026-08-26)
 - CPT revision: 'forum' renamed to 'news'
 - WP Admin text editor tweaks initiated
