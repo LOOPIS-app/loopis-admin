@@ -3,7 +3,7 @@
 * Plugin Name:  LOOPIS Admin
 * Plugin URI:   https://github.com/LOOPIS-app/loopis-admin
 * Description:  Plugin for configuring the WP Admin area of LOOPIS.app
-* Version:      0.75
+* Version:      0.76
 * Author:       The Develoopers
 * Author URI:   https://loopis.org
 * License:      GPL-3.0-or-later
@@ -11,23 +11,15 @@
 * Text Domain:  loopis-admin
 **/
 
-/*
- * Copyright (C) 2026 LOOPIS association
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- */
-
 // Prevent direct access
-if (!defined('ABSPATH')) { exit; }
+if (!defined('ABSPATH')) {
+    exit;
+}
 
-// Skip for frontend
-if (!is_admin()) { return; }
-
-// Define plugin version
-define('LOOPIS_ADMIN_VERSION', '0.75'); // Update version number here + add to CHANGELOG.md
+// Run only in admin area
+if (!is_admin()) {
+    return;
+}
 
 // Define plugin folder path constants
 define('LOOPIS_ADMIN_DIR', plugin_dir_path(__FILE__)); // Server-side path to /wp-content/plugins/loopis-admin/
@@ -35,15 +27,11 @@ define('LOOPIS_ADMIN_URL', plugin_dir_url(__FILE__));  // Client-side path to ht
 
 // Enqueue CSS
 add_action('admin_enqueue_scripts', 'loopis_admin_enqueue_assets');
-
 function loopis_admin_enqueue_assets() {
-    // Enqueue styles
-    wp_enqueue_style(
-        'loopis-admin-styles',
-        LOOPIS_ADMIN_URL . 'assets/css/loopis-admin.css',
-        array(),
-        filemtime(LOOPIS_ADMIN_DIR . 'assets/css/loopis-admin.css')
-    );
+    $stylesheet = LOOPIS_ADMIN_DIR . 'assets/loopis-admin.css';
+    if (is_file($stylesheet)) {
+        wp_enqueue_style('loopis-admin-styles', LOOPIS_ADMIN_URL . 'assets/loopis-admin.css', array(), filemtime($stylesheet));
+    }
 }
 
 // Utility function to include all PHP files in a folder
@@ -59,27 +47,19 @@ function loopis_admin_include_folder($folder_name) {
 }
 
 // Define folders to load
-function loopis_admin_load_files() {
-    loopis_admin_include_folder('functions/common');
-    loopis_admin_include_folder('functions/local');
-    loopis_admin_include_folder('pages/table-altering');
+function loopis_admin_subsite_files() {
+    loopis_admin_include_folder('filters');
+    loopis_admin_include_folder('menu/subsite');
 }
 
-function loopis_admin_hq_load_files() {
-    loopis_admin_include_folder('functions/common');
-    loopis_admin_include_folder('functions/hq');
-    loopis_admin_include_folder('pages/hq');
-    loopis_admin_include_folder('pages/table-altering');
+function loopis_admin_mainsite_files() {
+    loopis_admin_include_folder('filters');
+    loopis_admin_include_folder('menu/mainsite');
 }
 
-// Load different files for main site and single/sub-sites (when all plugins are loaded)
-if ( is_multisite() && is_main_site() ) :
-
-    // Load files for main site
-    add_action('plugins_loaded', 'loopis_admin_hq_load_files');
-
+// Load different files for main and sub site
+if ( is_main_site() ) :
+    add_action('plugins_loaded', 'loopis_admin_mainsite_files');
 else :
-
-    // Load files for single/sub-sites
-    add_action('plugins_loaded', 'loopis_admin_load_files');
+    add_action('plugins_loaded', 'loopis_admin_subsite_files');
 endif; 

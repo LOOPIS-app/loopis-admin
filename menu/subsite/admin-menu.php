@@ -8,9 +8,9 @@ if (!defined('ABSPATH')) {
 }
 
 // Include functions
-require_once LOOPIS_ADMIN_DIR . 'functions/hq/admin-menu-posts.php';
-require_once LOOPIS_ADMIN_DIR . 'functions/hq/admin-menu-cpt.php';
-require_once LOOPIS_ADMIN_DIR . 'functions/hq/admin-menu-reorder.php';
+require_once LOOPIS_ADMIN_DIR . 'menu/subsite/admin-menu-posts.php';
+require_once LOOPIS_ADMIN_DIR . 'menu/subsite/admin-menu-cpt.php';
+require_once LOOPIS_ADMIN_DIR . 'menu/subsite/admin-menu-reorder.php';
 
 // Add action with high priority to run after WordPress core menus
 add_action('admin_menu', 'loopis_admin_menu', 999);
@@ -24,9 +24,6 @@ function loopis_admin_menu() {
 
     // Configure custom post type menu items
     $position = loopis_admin_menu_cpt($position);
-
-    // Configure custom pages menu items
-    // No pages added yet
 
     // Reorder menu items
     loopis_admin_menu_reorder($position);
